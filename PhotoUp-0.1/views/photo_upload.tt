@@ -1,0 +1,47 @@
+<div class="container">
+    <!-- Browse and upload file form: -->
+    <form class="form-file-upload file-upload " enctype="multipart/form-data"
+    name="photoUploadForm"  action="/photo_upload" method="POST">
+    <fieldset>
+
+        <legend class="form-file-upload-heading">Email Your Photos</legend>
+        <!-- Start Bootstrap Template -->
+        <div class="fileupload fileupload-new" data-provides="fileupload">
+            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+              <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" />
+            </div>
+            <div class="fileupload-preview fileupload-exists thumbnail"
+             style="max-width: 200px; max-height: 150px; line-height: 20px;">
+            </div>
+            <div>
+               <span class="btn btn-file"><span class="fileupload-new">Select image</span>
+               <span class="fileupload-exists">Change</span>
+               <input type="file"  name="inPhoto"/>
+               </span>
+               <a href="in_photo" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a> 
+                <span class="text-error">[%- upload_error -%]</span>
+            </div> 
+        </div>
+        <!-- End Bootstrap Template -->
+        <div class="input-append">
+          <!-- Mail-to Email address -->
+          <input class="input-large" type="email" name="emailTo"
+          placeholder="Email to" maxlength="60" />
+          <button class="btn btn" type="submit" >Email Photo</button>
+        </div>
+        <div>
+           <span class="text-error">[%- email_error -%]</span>
+        </div>
+
+    </fieldset>
+    </form>
+    <!--   <div id="progress"></div> -->
+    <div id="messages">
+    <p class="text-success">[%- success_message -%]</p>
+    <p class="text-info">[%- info_message -%]</p>
+    <p class="text-warning">[%- warning_message -%]</p>
+    <p class="text-error">[%- error_message -%]</p>
+    </div>
+
+</div> <!-- /container -->
+
