@@ -79,3 +79,4 @@ log_mover.conf
 *.jpeg
 *.JPEG
 *.PNG
+Convert-Input*
