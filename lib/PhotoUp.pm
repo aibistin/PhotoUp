@@ -25,7 +25,7 @@ my $email_to             = 'emailTo';
 my $image_file_suffix_rx = qr/\.(gif|png|jpe?g)$/;
 my $image_file_type_rx   = qr/image\/(jpeg|gif|png)/;
 
-=head2 get $file_upload_route
+=method get $file_upload_route
   Render the file upload form.
 
 =cut
@@ -37,7 +37,7 @@ get $file_upload_route => sub {
     template 'photo_upload.tt', { title => 'Upload Photos', };
 };
 
-=head2 post $file_upload_route
+=method post $file_upload_route
   Upload the photograph or image file. Will accept files of type .jpg, .jpeg, 
   .png, .gif.
   Validates the file type and size.
@@ -110,7 +110,7 @@ post $file_upload_route => sub {
 
 };
 
-=head2 _validate_user_input
+=method _validate_user_input
  Validate the uploaded file and the 'to' Email address.
  Pass a HashRef with the Dancer Request Upload Object and
  the email address.
@@ -144,7 +144,7 @@ sub _validate_user_input {
         _validate_email_address( $validation_report->{email_to} ) );
 }
 
-=head2 _validate_email_address
+=method _validate_email_address
   Validates a given Email Address.
   Uses Email::Valid
   Returns undef if not valid.
@@ -163,7 +163,7 @@ sub _validate_email_address {
     return $valid_email_addr;
 }
 
-=head2 _validate_file 
+=method _validate_file 
   Validate the file type by first checking the file suffix,
   then validating the file type with File::Lib::Magic
   Also checks that the file is smaller than the maximum allowed 
@@ -190,7 +190,7 @@ sub _validate_file {
         /$image_file_type_rx/ );
 }
 
-=head2 _rename_uploaded_file
+=method _rename_uploaded_file
  Renames the temporary file basename back to its original name.
 
 =cut
@@ -202,7 +202,7 @@ sub _rename_uploaded_file {
     return $io_photo->rename( $filepath . $file_upload->basename );
 }
 
-=head2 _build_email_message
+=method _build_email_message
  Build the Email message
  Uses data fron the config file to populate most of these fields.
 
@@ -247,7 +247,7 @@ sub _build_email_message {
     return $message;
 }
 
-=head2 _build_email_transport
+=method _build_email_transport
   Build the Email Transport. Config file specifies SMTP-TLS for this project.
   My laptop is configured to use sSmtp.
   My development configuration file has set smtp.live.com(hotmail) as the
@@ -282,7 +282,7 @@ sub _build_email_transport {
     return $transport;
 }
 
-=head2 _send_email_msg
+=method _send_email_msg
   Send the Email with the photo attached
   Pass the message and the transport.
 
