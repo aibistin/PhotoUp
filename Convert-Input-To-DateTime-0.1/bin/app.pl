@@ -3,3 +3,9 @@
 use Dancer2;
 use PhotoUp;
 dance;
+
+__END__
+
+=pod
+
+=cut

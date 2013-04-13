@@ -75,5 +75,7 @@ log_mover.conf
 # Images - Dont need photos here from my tests
 #
 *.jpg
+*.JPG
 *.jpeg
-*.png
+*.JPEG
+*.PNG
