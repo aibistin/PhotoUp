@@ -1,9 +1,58 @@
+# ABSTRACT: Upload and email photo(s) demo using ssmpt and Hotmail
+=head1 NAME
+ PhotoUp - Upload and Email Photo(s) Demo
+=head1 VERSION
+Version 0.01
+=head1 SYNOPSIS
+  Just a demo.                                         
+=head1 DESCRIPTION
+  This is just a short demo to Upload a use inputted photograph or image. The
+  photo will be emailed to a user inputted email address using Dancer2. It will take
+  advantage or Bootstrap's photo upload and preview JavaScript/jQuery
+  component. It will also use Template::Toolkit.
+=head1 SEE ALSO
+
+=over
+
+=item *
+ L<Dancer>
+
+=item *
+ L<Template::Toolkit>
+=item *
+
+ L<Email::Sender>
+
+=back
+
+=head1 AUTHOR
+
+Austin Kenny, C<< <aibistin.cionnaith at gmail.com> >>
+
+
+=head1 ACKNOWLEDGEMENTS
+       All CPAN Contributers
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2013 Austin Kenny.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
+
+=cut
+
+use Modern::Perl qw/2012/;
+use autodie;
 package PhotoUp;
 
 use Dancer2;
 use Dancer2::Core::Error;
 
 our $VERSION = '0.1';
+$VERSION = eval $VERSION;
 
 use Template;
 use Data::Dump qw/dump/;
@@ -25,7 +74,7 @@ my $email_to             = 'emailTo';
 my $image_file_suffix_rx = qr/\.(gif|png|jpe?g)$/;
 my $image_file_type_rx   = qr/image\/(jpeg|gif|png)/;
 
-=method get $file_upload_route
+=head2 file_upload_route (get '/photo_upload')
   Render the file upload form.
 
 =cut
@@ -37,7 +86,7 @@ get $file_upload_route => sub {
     template 'photo_upload.tt', { title => 'Upload Photos', };
 };
 
-=method post $file_upload_route
+=head2 file_upload_route (post '/photo_upload')
   Upload the photograph or image file. Will accept files of type .jpg, .jpeg, 
   .png, .gif.
   Validates the file type and size.
@@ -110,7 +159,7 @@ post $file_upload_route => sub {
 
 };
 
-=method _validate_user_input
+=head2 _validate_user_input
  Validate the uploaded file and the 'to' Email address.
  Pass a HashRef with the Dancer Request Upload Object and
  the email address.
@@ -144,7 +193,7 @@ sub _validate_user_input {
         _validate_email_address( $validation_report->{email_to} ) );
 }
 
-=method _validate_email_address
+=head2 _validate_email_address
   Validates a given Email Address.
   Uses Email::Valid
   Returns undef if not valid.
@@ -163,7 +212,7 @@ sub _validate_email_address {
     return $valid_email_addr;
 }
 
-=method _validate_file 
+=head2 _validate_file 
   Validate the file type by first checking the file suffix,
   then validating the file type with File::Lib::Magic
   Also checks that the file is smaller than the maximum allowed 
@@ -190,7 +239,7 @@ sub _validate_file {
         /$image_file_type_rx/ );
 }
 
-=method _rename_uploaded_file
+=head2 _rename_uploaded_file
  Renames the temporary file basename back to its original name.
 
 =cut
@@ -202,7 +251,7 @@ sub _rename_uploaded_file {
     return $io_photo->rename( $filepath . $file_upload->basename );
 }
 
-=method _build_email_message
+=head2 _build_email_message
  Build the Email message
  Uses data fron the config file to populate most of these fields.
 
@@ -247,7 +296,7 @@ sub _build_email_message {
     return $message;
 }
 
-=method _build_email_transport
+=head2 _build_email_transport
   Build the Email Transport. Config file specifies SMTP-TLS for this project.
   My laptop is configured to use sSmtp.
   My development configuration file has set smtp.live.com(hotmail) as the
@@ -282,7 +331,7 @@ sub _build_email_transport {
     return $transport;
 }
 
-=method _send_email_msg
+=head2 _send_email_msg
   Send the Email with the photo attached
   Pass the message and the transport.
 
@@ -317,65 +366,4 @@ sub _process_error {
 #-------------------------------------------------------------------------------
 1;
 __END__
-
-# ABSTRACT: Upload and email photo(s) demo using ssmpt and Hotmail
-
-=head1 NAME
- 
- PhotoUp - Upload and Email Photo(s) Demo
-  
-=head1 VERSION
-
-Version 0.01
-
-
-=head1 SYNOPSIS
-        Just a demo.                                         
-
-=head1 DESCRIPTION
-  This is just a short demo to Upload a use inputted photograph or image. The
-  photo will be emailed to a user inputted email address using Dancer2. It will take
-  advantage or Bootstrap's photo upload and preview JavaScript/jQuery
-  component. It will also use Template::Toolkit.
-
-=head1 SEE ALSO
-
-=over
-
- 
-=item *
- 
- L<Dancer>
-
-=item *
- 
- L<Template::Toolkit>
-  
-=item *
-
- L<Email::Sender>
-
-=back
-
-=head1 AUTHOR
-
-Austin Kenny, C<< <aibistin.cionnaith at gmail.com> >>
-
-
-=head1 ACKNOWLEDGEMENTS
-       All CPAN Contributers
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright 2013 Austin Kenny.
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
-
-
-=cut
-
 
