@@ -228,10 +228,14 @@ sub _validate_email_address {
 
 sub _validate_file {
     my $in_file = shift;
+    debug 'Validating this file : '. $in_file->basename;
+    debug 'With this size'. $in_file->size;
+    debug 'which is less than the max '. config->{InputFile}{max_file_size};
     return
       unless ( $in_file
         && ( lc( $in_file->basename ) =~ /$image_file_suffix_rx/ )
         && ( $in_file->size <= config->{InputFile}{max_file_size} ) );
+    debug 'The file suffix and file size are ok!';
     my $FileMagic;
     try {
         $FileMagic = File::LibMagic->new();
